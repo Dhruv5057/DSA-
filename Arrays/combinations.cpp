@@ -1,0 +1,55 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void backtrack(
+    int start,
+    int n,
+    int k,
+    vector<int>& current,
+    vector<vector<int>>& result
+) {
+    // We have selected k numbers
+    if (current.size() == k) {
+        result.push_back(current);
+        return;
+    }
+
+    for (int i = start; i <= n; i++) {
+
+        current.push_back(i);
+
+        backtrack(i + 1, n, k, current, result);
+
+        current.pop_back();
+    }
+}
+
+vector<vector<int>> combine(int n, int k) {
+    vector<vector<int>> result;
+    vector<int> current;
+
+    backtrack(1, n, k, current, result);
+
+    return result;
+}
+
+int main() {
+    int n, k;
+    cin >> n >> k;
+
+    vector<vector<int>> result = combine(n, k);
+
+    for (const auto& combination : result) {
+        cout << "[";
+
+        for (int num : combination) {
+            cout << num << " ";
+        }
+
+        cout << "]" << endl;
+    }
+
+    return 0;
+}
